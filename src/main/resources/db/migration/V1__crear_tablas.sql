@@ -16,6 +16,3 @@ CREATE TABLE producto (
                               FOREIGN KEY (categoria_id)
                                   REFERENCES categoria(id)
 );
-
-
-
