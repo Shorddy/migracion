@@ -1,6 +1,10 @@
 package ni.edu.uam.gestion_productos.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "categoria")
@@ -13,6 +17,12 @@ public class Categoria {
     private String nombre;
 
     private boolean activa;
+
+    // @JsonIgnore evita la recursión infinita al serializar:
+    // Producto -> categoria -> productos -> categoria -> ...
+    @JsonIgnore
+    @OneToMany(mappedBy = "categoria")
+    private List<Producto> productos = new ArrayList<>();
 
     // Getters y Setters
     public Integer getId() {
@@ -37,6 +47,14 @@ public class Categoria {
 
     public void setActiva(boolean activa) {
         this.activa = activa;
+    }
+
+    public List<Producto> getProductos() {
+        return productos;
+    }
+
+    public void setProductos(List<Producto> productos) {
+        this.productos = productos;
     }
 
 }
